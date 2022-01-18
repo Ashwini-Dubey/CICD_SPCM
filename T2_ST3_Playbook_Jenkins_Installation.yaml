@@ -1,0 +1,43 @@
+###################################################################################
+# Ansible Playbook file for Jenkins & Java Installation on the Jenkins & App Host #
+###################################################################################
+---
+- hosts: jenkins_host
+  become: true
+  tasks:
+
+    - name: Updating the apt package
+      command : sudo apt-get update
+
+    - name: Installing JRE as a pre-requisite package for the Jenkins
+      command: sudo apt -y install default-jre
+
+    - name: Installing JDK as a pre-requisite package for the Jenkins
+      command: sudo apt -y install default-jdk
+      
+    - name: ensure the jenkins apt repository key is installed
+      apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key state=present
+      become: yes
+
+    - name: ensure the repository is configured
+      apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+      become: yes
+
+    - name: ensure jenkins is installed
+      apt: name=jenkins update_cache=yes
+      become: yes
+
+    - name: ensure jenkins is running
+      service: name=jenkins state=started
+
+    - name : Checking the Jenkins Status
+      command : systemctl status jenkins
+
+    - name: Checking firewall status to allow 8080 port
+      command: sudo ufw allow 8080
+
+    - name : Firewall status
+      command : sudo ufw status
+
+    - name: Initial Admin Password
+      command : cat /var/lib/jenkins/secrets/initialAdminPassword

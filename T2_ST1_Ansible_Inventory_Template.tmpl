@@ -1,0 +1,20 @@
+[private_host]
+${app_host_ip} ansible_user=ubuntu ansible_ssh_private_key_file=/mnt/c/Users/Ashwini/Desktop/Course_Project/PGC_DevOps_CICDSPCMProject/Scripts/project_key.pem
+${jenkins_host_ip} ansible_user=ubuntu ansible_ssh_private_key_file=/mnt/c/Users/Ashwini/Desktop/Course_Project/PGC_DevOps_CICDSPCMProject/Scripts/project_key.pem
+
+[jenkins_host]
+${jenkins_host_ip} ansible_user=ubuntu ansible_ssh_private_key_file=/mnt/c/Users/Ashwini/Desktop/Course_Project/PGC_DevOps_CICDSPCMProject/Scripts/project_key.pem
+
+[bastion_host]
+${bastion_host_ip} ansible_user=ubuntu ansible_ssh_private_key_file=/mnt/c/Users/Ashwini/Desktop/Course_Project/PGC_DevOps_CICDSPCMProject/Scripts/project_key.pem
+
+[bastion_host:vars]
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[private_host:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -i /mnt/c/Users/Ashwini/Desktop/Course_Project/PGC_DevOps_CICDSPCMProject/Scripts/project_key.pem -W %h:%p -q ubuntu@${bastion_host_ip}"'
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[jenkins_host:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -i /mnt/c/Users/Ashwini/Desktop/Course_Project/PGC_DevOps_CICDSPCMProject/Scripts/project_key.pem -W %h:%p -q ubuntu@${bastion_host_ip}"'
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'

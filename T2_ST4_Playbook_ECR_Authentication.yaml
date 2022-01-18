@@ -1,0 +1,19 @@
+############################################################################
+# Ansible Playbook file for ECR Authentication over the Jenkins & App Host #
+############################################################################
+---
+- hosts: private_host
+  become: true
+  tasks:
+    - name: Setting the AWS CLI Region
+      shell: 'aws configure set region us-east-1'
+
+    - name: Setting the AWS Secret Access Key
+      shell: 'aws configure set aws_secret_access_key <AWS-Secret-Access-Key>'
+
+    - name: Setting the AWS Access Key ID
+      shell: 'aws configure set aws_access_key_id <AWS-Access-Key-ID>'
+
+    - name: ECR Authentication
+      shell: 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <AWS_Account_ID>.dkr.ecr.us-east-1.amazonaws.com'
+
