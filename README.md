@@ -1,6 +1,6 @@
 **Documentation-cum-Guide for PGC DevOps Course Project**
-**
-Objective: **
+
+**Objective: **
 To create an Infrastructure on AWS with IAC(Terraform) , with configuration management using Ansible.
 To create a CI/CD Pipeline using Jenkins , which can checkout the Node Application code from a private repository on Github , then build out an image using the Dockerfile and push that image to ECR.
 To deploy the Node Application on a remote server by connecting the server with SSH and pulling the Docker Image from ECR.
